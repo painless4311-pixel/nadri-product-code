@@ -1,0 +1,114 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NADRI 제품코드 검색</title><meta name="theme-color" content="#225a43"><meta name="application-name" content="NADRI 제품코드"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="NADRI 코드"><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./icons/icon-192.png" type="image/png"><link rel="apple-touch-icon" href="./icons/icon-192.png"><style>
+*{box-sizing:border-box}body{margin:0;background:#f4f7f5;color:#21372c;font-family:system-ui,'Noto Sans KR',sans-serif}main{max-width:900px;margin:auto;padding:16px}.hero{background:#183d30;color:white;padding:22px;border-radius:16px;margin-bottom:14px}.hero h1{font-size:23px;margin:0 0 6px}.hero p{margin:0;color:#c9e1d2;font-size:13px}.panel{background:white;border:1px solid #dfe7e2;border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:0 3px 12px #203e2710}h2{font-size:17px;margin:0 0 12px}.upload{display:grid;grid-template-columns:1fr 1fr;gap:10px}.upload label{border:1px dashed #9cb7a5;border-radius:12px;padding:12px;display:block;font-size:13px}.upload input{display:block;width:100%;font-size:12px;margin-top:10px}.hint{font-size:12px;color:#61786b;line-height:1.6;margin:8px 0}.controls{display:grid;grid-template-columns:1fr 1fr;gap:9px}input[type=search],select,button{width:100%;border:1px solid #cbd9d0;background:white;border-radius:10px;padding:11px;font-size:14px;min-width:0}button{background:#225a43;color:white;border:0;font-weight:700;cursor:pointer}.secondary{background:#edf3ee;color:#254a37}.tabs{display:flex;gap:8px;margin-bottom:12px}.tabs button{flex:1}.tabs button:not(.active){background:#e8efeb;color:#315343}.stats{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0}.stat{font-size:12px;background:#edf4ee;padding:6px 9px;border-radius:30px}.head,.entry{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:10px;align-items:start}.head{background:#eaf1eb;font-size:12px;font-weight:800;padding:12px;border-radius:8px}.entry{padding:13px 10px;border-bottom:1px solid #e9eeea;font-size:13px;overflow-wrap:anywhere}.entry .code{text-align:right;font-weight:700;color:#155a42;word-break:break-all}.entry .warn{color:#a66b12}.candidate{display:block;width:100%;margin-top:7px;padding:7px;font-size:11px;text-align:left;background:#edf3ee;color:#244d39}.pick{width:100%;font-size:11px;padding:7px;margin-top:6px}.sub{font-size:11px;color:#778a7c;margin-top:4px}.actions{display:flex;gap:8px;margin-top:12px}.empty{text-align:center;color:#75877b;padding:24px;font-size:13px}#notice{white-space:pre-wrap} @media(max-width:430px){main{padding:10px}.panel{padding:12px}.hero{padding:17px}.hero h1{font-size:20px}.upload{grid-template-columns:1fr}.entry{font-size:12px}.controls{gap:6px}}
+
+.duo{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;align-items:start}.workpane{min-width:0}.workpane h2{margin-bottom:12px}.filebox{display:block;border:1px dashed #9cb7a5;border-radius:10px;padding:10px;font-size:13px}.filebox input{display:block;width:100%;margin-top:8px;font-size:12px}.db,.export{margin:9px 0 12px}.workpane .controls{margin-bottom:8px}.workpane .entry{grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);padding:11px 4px}.workpane .head{grid-template-columns:minmax(0,1.4fr) minmax(0,1fr)}.workpane .entry .code{font-size:12px}.workpane .stats{margin:9px 0}.workpane .pick{max-width:100%}@media(max-width:620px){main{max-width:none;padding:8px}.duo{gap:7px}.workpane{padding:8px;border-radius:10px}.workpane h2{font-size:15px}.workpane .controls{grid-template-columns:1fr}.workpane .head{font-size:11px;padding:8px 4px}.workpane .entry{font-size:11px;gap:4px}.workpane .entry .code{font-size:10px}.workpane select,.workpane input,.workpane button{font-size:11px;padding:8px 4px}.workpane .stat{font-size:10px;padding:4px 6px}.filebox{padding:6px;font-size:11px}.filebox input{font-size:10px}}
+
+.source-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}.source-card{border:1px solid #d9e5dc;border-radius:12px;padding:10px;min-width:0}.source-card.active{border:2px solid #225a43;background:#f1f8f3}.source-button{margin-bottom:10px}.source-card .db{margin-top:8px;font-size:12px}.source-card input{width:100%;font-size:11px;margin-top:7px}.source-card .filebox{font-size:12px;overflow-wrap:anywhere}.workpane{display:none}.workpane.active{display:block}.workpane .controls{margin-bottom:8px}.workpane input[type=search]{margin-bottom:8px}#duo{display:block!important}.workpane{width:100%!important;min-width:0!important}.source-card button{padding:9px 4px;font-size:12px}@media(max-width:430px){.source-grid{gap:7px}.source-card{padding:7px}}
+</style></head><body><main><div class="hero"><h1>NADRI 제품코드 검색 V2.15</h1><p>납품장 · 택배 / 날짜별 검색 / ERP 코드 자동 매칭</p></div><section class="panel"><h2>① ERP 재고 엑셀 (공통)</h2><div class="upload"><label><b>ERP 재고 엑셀</b><div class="hint">A열 코드 · B열 제품명</div><input id="erp" type="file" accept=".xlsx,.xls,.csv"></label><button class="secondary" id="dbErp">Dropbox에서 ERP 선택</button></div><p class="hint">Dropbox 파일 선택은 휴대폰 파일 선택창을 사용합니다. 자동 동기화는 별도 인증이 필요합니다.</p><p id="notice" class="hint">엑셀을 읽으려면 인터넷 연결이 필요합니다.</p><button class="secondary" id="clear">불러온 데이터 초기화</button><div class="actions"><button type="button" id="backupMappings" class="secondary">확정 코드 백업</button><button type="button" id="restoreMappings" class="secondary">확정 코드 복원</button></div><input id="mappingFile" type="file" accept=".json,application/json" style="display:none"></section>
+<section class="panel"><h2>① 엑셀 불러오기 · 납품장 / 택배</h2><div class="source-grid"><div class="source-card active" id="deliveryCard"><button type="button" id="deliverySwitch" class="source-button">납품장 보기</button><label class="filebox">납품장 엑셀<input id="deliveryFile" type="file" accept=".xlsx,.xls,.csv" multiple></label><button class="secondary db" id="dbDelivery">Dropbox에서 선택</button></div><div class="source-card" id="parcelCard"><button type="button" id="parcelSwitch" class="source-button secondary">택배 보기</button><label class="filebox">택배 엑셀<input id="parcelFile" type="file" accept=".xlsx,.xls,.csv" multiple></label><button class="secondary db" id="dbParcel">Dropbox에서 선택</button></div></div><p class="hint">납품장·택배 버튼을 누르면 아래 검색 결과만 즉시 바뀝니다. 두 파일은 각각 유지됩니다.</p></section>
+<section class="panel"><h2>② 코드 검색 결과</h2><div id="duo">
+<section class="workpane" data-kind="납품장"><div class="controls"><select id="deliveryDate"><option value="">전체 날짜</option></select><select id="deliveryStatus"><option value="">전체 상태</option><option value="match">매칭 완료</option><option value="review">확인 필요</option><option value="skip">코드 불필요</option></select></div><input id="deliveryQ" type="search" placeholder="납품장 제품명 / 코드 검색"><div class="stats" id="deliveryStats"></div><div class="head"><span>제품명</span><span style="text-align:right">ERP 코드</span></div><div id="deliveryList"><div class="empty">납품장 엑셀을 선택해 주세요.</div></div><button class="export" id="deliveryExport">납품장 결과 엑셀 다운로드</button></section>
+<section class="workpane" data-kind="택배"><div class="controls"><select id="parcelDate"><option value="">전체 날짜</option></select><select id="parcelStatus"><option value="">전체 상태</option><option value="match">매칭 완료</option><option value="review">확인 필요</option><option value="skip">코드 불필요</option></select></div><input id="parcelQ" type="search" placeholder="택배 제품명 / 코드 검색"><div class="stats" id="parcelStats"></div><div class="head"><span>제품명</span><span style="text-align:right">ERP 코드</span></div><div id="parcelList"><div class="empty">택배 엑셀을 선택해 주세요.</div></div><button class="export" id="parcelExport">택배 결과 엑셀 다운로드</button></section>
+</div></section><p class="hint">납품장과 택배는 파일을 따로 불러오고 버튼으로 검색 결과를 전환할 수 있습니다. T는 테이블로 비교하고 W 다음 숫자 제품은 코드 불필요로 표시합니다. 택배는 물품명(L열)만 읽습니다.</p></main><script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script><script>
+const $=id=>document.getElementById(id);let erp=[],orders=[],results=[];let overrides={};try{overrides=JSON.parse(localStorage.getItem('nadriCodeOverridesV25')||'{}')}catch(e){};const clean=s=>String(s??'').normalize('NFKC').toLowerCase().replace(/\s+/g,'').replace(/[^\p{L}\p{N}]/gu,'');const str=x=>String(x??'').trim();function esc(s){return str(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}function say(s){$('notice').textContent=s}function read(f){return new Promise((ok,no)=>{if(!window.XLSX)return no(Error('엑셀 라이브러리를 불러오지 못했습니다. 인터넷을 확인하세요.'));const r=new FileReader();r.onload=()=>{try{let w=XLSX.read(r.result,{type:'array',cellDates:true});ok(w.SheetNames.flatMap(name=>XLSX.utils.sheet_to_json(w.Sheets[name],{header:1,defval:'',raw:false}).map((cells,i)=>({cells,sheet:name,row:i+1}))))}catch(e){no(e)}};r.onerror=()=>no(Error('파일 읽기 실패'));r.readAsArrayBuffer(f)})}function parseERP(rows){return rows.map(r=>({code:str(r.cells[0]),name:str(r.cells[1])})).filter(x=>x.code&&x.name&&!/^(코드|제품코드|품목코드)$/i.test(x.code)&&clean(x.name)!=='제품명')}
+function parseOrders(rows,kind){
+if(kind==='택배'){
+ const out=[];
+ for(const r of rows){
+  const v=str(r.cells[11]);
+  if(!v||/^(물품명|상품명|제품명)$/i.test(v)||/^\d{1,2}\.\d{1,2}\(/.test(v))continue;
+  const parts=v.split(/\r?\n|\s+\+\s+(?=[^:]+\s*:\s*\d+\s*개)/).map(x=>x.trim()).filter(Boolean);
+  for(const part of parts){
+   const m=part.match(/^(.+?)\s*:\s*(\d+)\s*(?:개|세트|벌|조|박스|장|EA)(?=\s|[-/+(]|$)/i);
+   const name=(m?m[1]:part.replace(/\s*[-–]\s*(?:포장강화|배송|검수|CJ|대신|내부|파손주의).*$/i,'')).trim();
+   if(!name||/^(전화|주소|배송|택배|운송장|받는사람)/.test(name))continue;
+   out.push({date:r.sheet,name,kind,source:r.sheet,sourceRow:r.row,qty:m?+m[2]:1});
+  }
+ }
+ return out;
+}
+// 납품장: 배송처 묶음 A-C / D-F / G-I / J-L. 제품은 B/E/H/K열.
+const groups=[{product:1,first:0},{product:4,first:3},{product:7,first:6},{product:10,first:9}];
+const bySheet=new Map();for(const r of rows){if(!bySheet.has(r.sheet))bySheet.set(r.sheet,[]);bySheet.get(r.sheet).push(r)}
+const out=[];const productRe=/^(.+?)\s*:\s*(\d+)\s*(개|세트|벌|조|박스|장|EA)(?=$|\s*[-(])/i;
+for(const [sheet,rs] of bySheet){for(const g of groups){for(let i=0;i<rs.length;i++){
+ const r=rs[i],v=str(r.cells[g.product]);if(!v||v.startsWith('*'))continue;
+ const m=v.match(productRe);if(!m)continue;
+ let name=m[1].trim();if(!name||/^(전화|주소|택배|배송|방문|계좌)/.test(name))continue;
+ // 바로 다음 줄에 이어지는 색상/규격 메모를 제품명에 붙임 (예: 구아블라 소파T → *66cm(화이트))
+ const next=rs[i+1];if(next&&next.row===r.row+1){const note=str(next.cells[g.product]);if(/^\*\s*(?:\d{2,4}\s*(?:cm|mm)|[Øø]\s*\d+|\d+\s*[xX*]\s*\d+)\b/i.test(note))name+=' '+note.replace(/^\*\s*/,'')}
+ out.push({date:sheet,name,kind,source:sheet,sourceRow:r.row,qty:+m[2]});
+ }}}
+ return out;
+}
+// V2.8: T=테이블, Ø=원형 지름 표기. 동일 제품군에서만 Ø 유무를 동등하게 처리.
+// V2.10: 제품 고유명 + 종류 + 규격 + 색상 전체가 일치할 때만 자동 확정.
+// cm / Ø / × / x / * 표기 차이와 납품장 약칭 T를 표준화한다.
+function normalizeName(s){
+ let v=String(s??'').normalize('NFKC').toLowerCase();
+ v=v.replace(/\[\s*아울렛\s*\]|\(\s*아울렛\s*\)/g,'');
+ v=v.replace(/([가-힣])\s*t(?=\s|\d|[(/（]|$)/g,'$1테이블');
+ v=v.replace(/센티미터/g,'cm').replace(/[Øø⌀Φφ]/g,'');
+ v=v.replace(/(\d+(?:\.\d+)?)\s*cm\b/g,'$1');
+ v=v.replace(/(\d)\s*[×x*＊]\s*(\d)/g,'$1x$2');
+ v=v.replace(/테이블/g,'t');
+ return clean(v);
+}
+function exactCandidates(name){const key=normalizeName(name);return erp.filter(e=>normalizeName(e.name)===key)}
+function noCodeRequired(s){return /(?:^|[^a-z0-9])w\s*[-_]?\s*\d+/i.test(String(s).normalize('NFKC'))}
+function tokens(s){return String(s).normalize('NFKC').toLowerCase().replace(/([0-9])\s*[×x*]\s*([0-9])/g,'$1x$2').match(/[가-힣a-z]+|[0-9]+(?:\.[0-9]+)?/g)||[]}
+// V2.14: 후보는 반드시 제품 고유명(첫 한글 단어)이 일치해야 한다.
+// 규격만 같은 타 브랜드 제품은 추천하지 않는다.
+function productBrand(s){
+ let v=String(s??'').normalize('NFKC').toLowerCase().replace(/^\s*[*0-9.]+\s*/, '').trim();
+ return (v.match(/^[가-힣]+/)||[])[0]||'';
+}
+function rank(name){
+ const brand=productBrand(name), n=normalizeName(name), nt=tokens(name);
+ const dimension=s=>{let v=String(s).normalize('NFKC').toLowerCase().replace(/[øØ⌀Φφ]/g,'').replace(/\s/g,'');const pair=v.match(/(\d+(?:\.\d+)?)\s*[×x*＊]\s*(\d+(?:\.\d+)?)/);if(pair)return pair[1]+'x'+pair[2];const cm=v.match(/(\d+(?:\.\d+)?)cm/);return cm?cm[1]:''};
+ const dim=dimension(name), colors=['화이트','블랙','그린','베이지','오크','월넛','그레이','테라코타','브라운','아이보리'];
+ const namedColors=colors.filter(c=>n.includes(c));
+ return erp.map(x=>{
+  if(brand && productBrand(x.name)!==brand)return null;
+  const t=normalizeName(x.name);if(!t)return null;
+  const otherDim=dimension(x.name);
+  if(dim&&otherDim&&dim!==otherDim)return null;
+  if(namedColors.some(c=>!t.includes(c)))return null;
+  const et=tokens(x.name);
+  let score=0;
+  if(t===n)score=1;
+  else {
+   const same=nt.filter(v=>et.includes(v));
+   const overlap=same.length/Math.max(nt.length,1);
+   score=.28 + overlap*.32;
+   if(t.includes(n)||n.includes(t))score+=.2;
+   if(dim&&otherDim===dim)score+=.16;
+   if(namedColors.length)score+=.04;
+   if(!dim&&otherDim)score-=.04;
+   if(!namedColors.length&&colors.some(c=>t.includes(c)))score-=.04;
+  }
+  return{x,score:Math.max(0,Math.min(1,score))};
+ }).filter(Boolean).sort((a,b)=>b.score-a.score).slice(0,8);
+}
+function match(name){if(noCodeRequired(name))return{code:'코드 불필요',status:'skip',candidates:[]};let key=normalizeName(name);if(overrides[key]){const x=erp.find(e=>e.code===overrides[key]);if(x)return{code:x.code,status:'match',manual:true,candidates:[]}}if(!erp.length)return{code:'확인 필요',status:'review',candidates:[]};const exact=exactCandidates(name);const distinct=[...new Set(exact.map(e=>e.code))];if(distinct.length===1)return{code:distinct[0],status:'match',candidates:[]};const ranked=rank(name);const first=ranked[0],second=ranked[1];if(first&&first.score>=.999&&(!second||second.score<.999))return{code:first.x.code,status:'match',candidates:[]};return{code:'확인 필요',status:'review',candidates:(exact.length?exact.map(x=>({code:x.code,name:x.name,score:1})):ranked.filter(x=>x.score>=.25).map(v=>({code:v.x.code,name:v.x.name,score:v.score}))).slice(0,3)}}
+function rebuild(){results=orders.map(o=>({...o,...match(o.name)}));renderAll()}
+const panes=[{kind:'납품장',prefix:'delivery'},{kind:'택배',prefix:'parcel'}];
+function filtered(p){const d=$(p.prefix+'Date').value,st=$(p.prefix+'Status').value,q=clean($(p.prefix+'Q').value);return results.filter(x=>x.kind===p.kind&&(!d||x.date===d)&&(!st||x.status===st)&&(!q||clean(x.name+' '+x.code).includes(q)))}
+function selectToday(p){const now=new Date(),m=now.getMonth()+1,d=now.getDate();const ds=[...new Set(results.filter(x=>x.kind===p.kind).map(x=>x.date))];const today=ds.find(x=>{const v=x.match(/^\s*(\d{1,2})\s*[.\/-]\s*(\d{1,2})(?!\d)/);return v&&+v[1]===m&&+v[2]===d});$(p.prefix+'Date').value=today||'';render(p)}
+function renderAll(){panes.forEach(render)}
+function render(p){const pre=p.prefix,ds=[...new Set(results.filter(x=>x.kind===p.kind).map(x=>x.date))].sort((a,b)=>{let pa=a.match(/^(\d+)\.(\d+)/),pb=b.match(/^(\d+)\.(\d+)/);if(pa&&pb)return (+pa[1]-+pb[1])||(+pa[2]-+pb[2]);if(pa)return -1;if(pb)return 1;return a.localeCompare(b,'ko')});const el=$(pre+'Date'),selected=el.value;el.innerHTML='<option value="">전체 날짜</option>'+ds.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join('');if(ds.includes(selected))el.value=selected;
+const a=filtered(p);$(pre+'Stats').innerHTML=`<span class="stat">전체 ${results.filter(x=>x.kind===p.kind).length}건</span><span class="stat">표시 ${a.length}건</span><span class="stat">매칭 ${a.filter(x=>x.status==='match').length}</span><span class="stat">확인 필요 ${a.filter(x=>x.status==='review').length}</span>`;
+$(pre+'List').innerHTML=a.length?a.slice(0,1000).map((x,i)=>`<div class="entry"><div>${esc(x.name)}${x.manual?'<div class="sub">확정됨</div>':''}</div><div class="code ${x.status==='review'?'warn':''}">${esc(x.code)}${x.status==='review'&&erp.length?`<select class="pick" data-pick="${i}"><option value="">후보 선택</option>${(x.candidates||[]).map(c=>`<option value="${esc(c.code)}">${esc(c.code)} · ${esc(c.name)}</option>`).join('')}<option value="__search">코드 직접 입력</option></select>`:x.manual?`<button class="candidate" data-reset="${i}">확정 취소</button>`:''}</div></div>`).join(''):'<div class="empty">표시할 제품이 없습니다.</div>';
+$(pre+'List').querySelectorAll('[data-pick]').forEach(el=>el.onchange=()=>{const x=a[+el.dataset.pick];let code=el.value;if(code==='__search')code=prompt('ERP 제품코드를 정확히 입력하세요')||'';if(!code)return;const e=erp.find(z=>z.code.toLowerCase()===code.trim().toLowerCase());if(!e){alert('ERP 파일에 없는 코드입니다.');return}if(!confirm(`${x.name}\n→ ${e.name}\n코드 ${e.code}로 확정할까요?`))return;overrides[normalizeName(x.name)]=e.code;localStorage.setItem('nadriCodeOverridesV25',JSON.stringify(overrides));rebuild()});
+$(pre+'List').querySelectorAll('[data-reset]').forEach(el=>el.onclick=()=>{const x=a[+el.dataset.reset];delete overrides[normalizeName(x.name)];localStorage.setItem('nadriCodeOverridesV25',JSON.stringify(overrides));rebuild()});}
+
+
+$('backupMappings').onclick=()=>{const data=JSON.stringify({version:1,mappings:overrides},null,2);const blob=new Blob([data],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='NADRI_확정코드_백업.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
+$('restoreMappings').onclick=()=>$('mappingFile').click();
+$('mappingFile').onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{const obj=JSON.parse(await f.text());if(!obj||typeof obj.mappings!=='object'||Array.isArray(obj.mappings))throw Error('백업 형식이 아닙니다');const valid=Object.fromEntries(Object.entries(obj.mappings).filter(([k,v])=>typeof k==='string'&&typeof v==='string'&&k.length<300&&v.length<100));if(!confirm(Object.keys(valid).length+'개 확정 코드 기록을 복원할까요?'))return;overrides={...overrides,...valid};localStorage.setItem('nadriCodeOverridesV25',JSON.stringify(overrides));rebuild();say('확정 코드 기록 복원 완료')}catch(err){alert('복원 실패: '+err.message)}finally{e.target.value=''}};
+let activeKind='납품장';function switchKind(kind){activeKind=kind;document.querySelectorAll('.workpane').forEach(e=>e.classList.toggle('active',e.dataset.kind===kind));$('deliveryCard').classList.toggle('active',kind==='납품장');$('parcelCard').classList.toggle('active',kind==='택배');$('deliverySwitch').classList.toggle('secondary',kind!=='납품장');$('parcelSwitch').classList.toggle('secondary',kind!=='택배');} $('deliverySwitch').onclick=()=>switchKind('납품장');$('parcelSwitch').onclick=()=>switchKind('택배');switchKind('납품장');
+$('dbErp').onclick=()=>$('erp').click();$('dbDelivery').onclick=()=>$('deliveryFile').click();$('dbParcel').onclick=()=>$('parcelFile').click();
+$('erp').onchange=async e=>{try{const f=e.target.files[0];if(!f)return;erp=parseERP(await read(f));say(`ERP ${erp.length}개 품목 불러옴: ${f.name}`);rebuild()}catch(err){say('ERP 오류: '+err.message)}};
+for(const p of panes){$(p.prefix+'File').onchange=async e=>{try{const fs=[...e.target.files],added=[];for(const f of fs)added.push(...parseOrders(await read(f),p.kind));orders=orders.filter(x=>x.kind!==p.kind).concat(added);say(`${p.kind}: ${added.length}개 제품 불러옴. ${fs.map(x=>x.name).join(', ')}`);rebuild();selectToday(p);switchKind(p.kind)}catch(err){say(`${p.kind} 오류: ${err.message}`)}};for(const suffix of ['Date','Status','Q'])$(p.prefix+suffix).addEventListener(suffix==='Q'?'input':'change',()=>render(p));$(p.prefix+'Export').onclick=()=>{if(!window.XLSX){alert('엑셀 라이브러리 연결이 필요합니다.');return}const a=filtered(p);if(!a.length){alert('다운로드할 결과가 없습니다.');return}const sheet=XLSX.utils.json_to_sheet(a.map(x=>({'날짜':x.date,'제품명':x.name,'ERP 코드':x.code,'상태':x.status==='match'?'매칭 완료':x.status==='skip'?'코드 불필요':'확인 필요','시트':x.source,'원본 행':x.sourceRow})));const w=XLSX.utils.book_new();XLSX.utils.book_append_sheet(w,sheet,'검색결과');XLSX.writeFile(w,`NADRI_${p.kind}_코드검색.xlsx`)}};
+$('clear').onclick=()=>{if(confirm('불러온 데이터를 초기화할까요?')){erp=[];orders=[];results=[];$('erp').value='';panes.forEach(p=>$(p.prefix+'File').value='');say('초기화되었습니다.');renderAll()}};renderAll();
+</script><script>if("serviceWorker" in navigator && location.protocol.startsWith("http")){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));}</script></body></html>
