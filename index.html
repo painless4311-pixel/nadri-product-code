@@ -48,23 +48,21 @@ function isProductOption(note){
  if(/배송|출고|도착|택배|화물|퀵|착불|선불|검수|포장|손질|개봉|전화|주소|보내는|받는|설치|조립|입금/.test(s))return false;
  return /화이트|블랙|그린|베이지|오크|월넛|그레이|테라코타|브라운|아이보리|내추럴|네추럴|옐로우|카키|블루|핑크|레드|크림|차콜|레더|가죽|패브릭|셔닐|벨벳|컬러|색상|프레임|다리|원목|\d+\s*(?:cm|mm)|[Øø]\s*\d+|\d+\s*[xX*]\s*\d+/i.test(s);
 }
-function splitDeliveryProducts(text){
- const out=[];
- for(const line of str(text).split(/\r?\n/).map(x=>x.trim()).filter(Boolean)){
-  if(/^\*/.test(line)||/^(전화|주소|택배|배송|방문|계좌|보내는곳|받는곳)/.test(line))continue;
-  const variants=line.match(/^(.+?)\s*\(\s*([^()]+)\s*\)\s*$/);
-  if(variants && /[,，]/.test(variants[2])){
-   const parts=variants[2].split(/[,，]/).map(x=>x.trim());
-   const parsed=parts.map(x=>x.match(/^(.+?)\s*(\d+)\s*(?:개|EA)?$/i));
-   if(parsed.every(Boolean) && parsed.every(m=>/그린|베이지|화이트|블랙|오크|월넛|그레이|테라코타|브라운|아이보리|크림|카키|블루|핑크|레드|옐로우|차콜|내추럴|네추럴/i.test(m[1]))){
-    for(const m of parsed)out.push({name:variants[1].trim()+'('+m[1].trim()+')',qty:+m[2]});
-    continue;
-   }
-  }
-  const m=line.match(/^(.+?)\s*:\s*(\d+)\s*(개|세트|벌|조|박스|장|EA)(?=$|\s*[-(])/i);
-  if(m)out.push({name:m[1].trim(),qty:+m[2]});
- }
- return out;
+// V2.23: 수량 콜론이 없는 소파 색상별 주문을 개별 품목으로 분리합니다.
+// 예: 카이린 2인소파(그린2,베이지2) → 그린 2개 / 베이지 2개.
+function splitColorOrders(value){
+ const text=str(value);
+ const m=text.match(/^(.+?\b(?:소파|체어|의자|스툴|베드|테이블))\s*\(([^()]*)\)\s*$/i);
+ if(!m)return [];
+ const parts=m[2].split(/[,，、]/).map(x=>x.trim()).filter(Boolean);
+ if(parts.length<2)return [];
+ const colors=['화이트','블랙','그린','베이지','오크','월넛','그레이','테라코타','브라운','아이보리','내추럴','네추럴','옐로우','카키','블루','핑크','레드','크림','차콜'];
+ const parsed=parts.map(part=>{
+  const hit=part.match(/^(.+?)\s*[:：]?\s*(\d+)\s*(?:개|EA)?$/i);
+  if(!hit||!colors.includes(hit[1].trim())||+hit[2]<1)return null;
+  return {name:m[1].trim()+'('+hit[1].trim()+')',qty:+hit[2]};
+ });
+ return parsed.every(Boolean)?parsed:[];
 }
 function parseOrders(rows,kind){
 if(kind==='택배'){
@@ -82,7 +80,7 @@ if(kind==='택배'){
  }
  return out;
 }
-// V2.23: 발송용 전표의 '보내는곳' 이하 행은 원본 테두리가 이어져도 절대 인식하지 않습니다.
+// V2.22: 발송용 전표의 '보내는곳' 이하 행은 원본 테두리가 이어져도 절대 인식하지 않습니다.
 // 기존 검은 테두리 범위를 보존하고, 발송용 영역 시작 행에서 잘라냅니다.
 const cutoffs=new Map();
 for(const r of rows){
@@ -103,20 +101,21 @@ const bySheet=new Map();for(const r of rows){if(!bySheet.has(r.sheet))bySheet.se
 const out=[];const productRe=/^(.+?)\s*:\s*(\d+)\s*(개|세트|벌|조|박스|장|EA)(?=$|\s*[-(])/i;
 for(const [sheet,rs] of bySheet){for(const g of groups){for(let i=0;i<rs.length;i++){
  const r=rs[i];if(r.isSenderArea)continue;if(!(r.frames||[]).some(f=>f.first===g.first&&r.row>=f.start&&r.row<=f.end))continue;const v=str(r.cells[g.product]);if(!v||v.startsWith('*'))continue;
- const products=splitDeliveryProducts(v);if(!products.length)continue;
- const notes=[];
+ const m=v.match(productRe);
+ if(!m){
+  const colorOrders=splitColorOrders(v);
+  for(const item of colorOrders)out.push({date:sheet,name:item.name,kind,source:sheet,sourceRow:r.row,qty:item.qty});
+  continue;
+ }
+ let name=m[1].trim();if(!name||/^(전화|주소|택배|배송|방문|계좌)/.test(name))continue;
  // Attach option-only continuation rows in this group, stopping at the next product/header.
  for(let j=i+1;j<rs.length;j++){
   const next=rs[j];if(next.isSenderArea||!(next.frames||[]).some(f=>f.first===g.first&&next.row>=f.start&&next.row<=f.end))break;
   const note=str(next.cells[g.product]);if(!note)break;
   if(!/^\*/.test(note)||!isProductOption(note))break;
-  notes.push(note.replace(/^\*\s*/,''));
+  name+=' '+note.replace(/^\*\s*/,'');
  }
- for(const item of products){
-  const name=[item.name,...notes].join(' ');
-  if(!name||/^(전화|주소|택배|배송|방문|계좌)/.test(name))continue;
-  out.push({date:sheet,name,kind,source:sheet,sourceRow:r.row,qty:item.qty});
- }
+ out.push({date:sheet,name,kind,source:sheet,sourceRow:r.row,qty:+m[2]});
  }}}
  return out;
 }
